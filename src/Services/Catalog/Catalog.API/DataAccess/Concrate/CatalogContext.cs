@@ -1,18 +1,18 @@
 ﻿using Catalog.API.DataAccess.Abstract;
 using Catalog.API.DataAccess.SeedDatas;
 using Catalog.API.Entities;
-using Microsoft.Extensions.Configuration;
+using Catalog.API.Settings.Abstract;
 using MongoDB.Driver;
 
 namespace Catalog.API.DataAccess.Concrate
 {
     public class CatalogContext : ICatalogContext
     {
-        public CatalogContext(IConfiguration configuration)
+        public CatalogContext(IDatabaseSettings configuration)
         {
-            var client = new MongoClient(configuration.GetValue<string>("DatabaseSettings:ConnectionString"));
-            var database = client.GetDatabase(configuration.GetValue<string>("DatabaseSettings:DatabaseName"));
-            Products = database.GetCollection<Product>(configuration.GetValue<string>("DatabaseSettings:CollectionName"));
+            var client = new MongoClient(configuration.ConnectionString);
+            var database = client.GetDatabase(configuration.DatabaseName);
+            Products = database.GetCollection<Product>(configuration.CollectionName);
 
             CatalogContextSeed.SeedData(Products);
         }

@@ -2,11 +2,14 @@ using Catalog.API.DataAccess.Abstract;
 using Catalog.API.DataAccess.Concrate;
 using Catalog.API.Repositories.Abstract;
 using Catalog.API.Repositories.Concrate;
+using Catalog.API.Settings.Abstract;
+using Catalog.API.Settings.Concrete;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 
 namespace Catalog.API
@@ -21,7 +24,11 @@ namespace Catalog.API
         public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
-        {            
+        {
+            services.Configure<DatabaseSettings>(Configuration.GetSection("DatabaseSettings"));
+
+            services.AddSingleton<IDatabaseSettings>(s => s.GetRequiredService<IOptions<DatabaseSettings>>().Value);
+
             services.AddControllers();
 
             services.AddSwaggerGen(c =>
@@ -30,6 +37,7 @@ namespace Catalog.API
             });
 
             services.AddScoped<ICatalogContext, CatalogContext>();
+            
             services.AddScoped<IProductRepository, ProductRepository>();
         }
 

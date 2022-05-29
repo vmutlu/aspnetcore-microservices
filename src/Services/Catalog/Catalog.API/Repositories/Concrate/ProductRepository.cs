@@ -1,4 +1,4 @@
-﻿using Catalog.API.DataAccess.Concrate;
+﻿using Catalog.API.DataAccess.Abstract;
 using Catalog.API.Entities;
 using Catalog.API.Repositories.Abstract;
 using MongoDB.Driver;
@@ -10,9 +10,9 @@ namespace Catalog.API.Repositories.Concrate
 {
     public class ProductRepository : IProductRepository
     {
-        private readonly  CatalogContext _context;
+        private readonly ICatalogContext _context;
 
-        public ProductRepository(CatalogContext context)
+        public ProductRepository(ICatalogContext context)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
