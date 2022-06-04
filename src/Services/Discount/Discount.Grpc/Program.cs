@@ -1,8 +1,8 @@
-using Discount.API.Extensions;
+using Discount.Grpc.Extensions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace Discount.API
+namespace Discount.Grpc
 {
     public class Program
     {
@@ -11,7 +11,7 @@ namespace Discount.API
             var host = CreateHostBuilder(args).Build();
 
             host.MigrateDatabase<Program>();
-            
+
             host.Run();
         }
 
