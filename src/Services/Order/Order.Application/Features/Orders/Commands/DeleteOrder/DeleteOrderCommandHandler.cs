@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Order.Application.Contracts.Persistence;
+using Order.Application.Exceptions;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -23,13 +24,11 @@ namespace Order.Application.Features.Orders.Commands.DeleteOrder
 
         public async Task<Unit> Handle(DeleteOrderCommand request, CancellationToken cancellationToken)
         {
-            var orderToDelete = await _orderRepository.GetByIdAsync(request.Id);
+            var orderToDelete = await _orderRepository.GetByIdAsync(request.Id).ConfigureAwait(false);
             if (orderToDelete == null)
-            {
                 throw new NotFoundException(nameof(Order), request.Id);
-            }
 
-            await _orderRepository.DeleteAsync(orderToDelete);
+            await _orderRepository.DeleteAsync(orderToDelete).ConfigureAwait(false);
             _logger.LogInformation($"Order {orderToDelete.Id} is successfully deleted.");
 
             return Unit.Value;
