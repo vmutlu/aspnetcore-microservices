@@ -18,6 +18,6 @@ jobs:
       with:
         dotnet-version: 5.0.x
     - name: Restore dependencies
-      run: dotnet restore DotnetMicroservices.sln
+      run: dotnet restore src/DotnetMicroservices.sln
     - name: Build
-      run: dotnet build DotnetMicroservices.sln --no-restore
+      run: dotnet build src/DotnetMicroservices.sln --no-restore
