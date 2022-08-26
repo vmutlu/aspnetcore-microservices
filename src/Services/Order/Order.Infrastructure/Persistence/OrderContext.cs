@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Order.Domain.Common;
 using System;
 using System.Threading;
@@ -14,23 +15,23 @@ namespace Order.Infrastructure.Persistence
 
         public DbSet<Order.Domain.Entities.Order> Orders { get; set; }
 
-        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
-            foreach (var entry in ChangeTracker.Entries<BaseEntity>())
+            foreach (EntityEntry<BaseEntity> entry in ChangeTracker.Entries<BaseEntity>())
             {
                 switch (entry.State)
                 {
                     case EntityState.Added:
-                        entry.Entity.CreatedDate = DateTime.Now;
-                        entry.Entity.CreatedBy = "swn";
-                        break;
+                        entry.Entity.CreatedDate = DateTime.Now.Date;
+                        entry.Entity.CreatedBy = "vmutlu";
+                        break; 
                     case EntityState.Modified:
-                        entry.Entity.LastModifiedDate = DateTime.Now;
-                        entry.Entity.LastModifiedBy = "swn";
+                        entry.Entity.LastModifiedDate = DateTime.Now.Date;
+                        entry.Entity.LastModifiedBy = "vmutlu";
                         break;
                 }
             }
-            return base.SaveChangesAsync(cancellationToken);
+            return await base.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
         }
     }
 }
