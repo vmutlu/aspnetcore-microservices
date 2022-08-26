@@ -28,11 +28,11 @@ namespace Order.Application.Features.Orders.Commands.CheckoutOrder
         public async Task<int> Handle(CheckoutOrderCommand request, CancellationToken cancellationToken)
         {
             var mappedEntity = _mapper.Map<Order.Domain.Entities.Order>(request);
-          var result = await _orderRepository.AddAsync(mappedEntity).ConfigureAwait(false);
+            var result = await _orderRepository.AddAsync(mappedEntity).ConfigureAwait(false);
 
             _logger.LogInformation($"Order {result.Id} is successfuly created");
 
-            await SendMail(result);
+            await SendMail(result).ConfigureAwait(false);
 
             return result.Id;
         }

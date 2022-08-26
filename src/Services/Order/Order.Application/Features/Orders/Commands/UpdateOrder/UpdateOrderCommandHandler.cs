@@ -25,8 +25,8 @@ namespace Order.Application.Features.Orders.Commands.UpdateOrder
         public async Task<Unit> Handle(UpdateOrderCommand request, CancellationToken cancellationToken)
         {
             var orderToUpdate = await _orderRepository.GetByIdAsync(request.Id).ConfigureAwait(false);
-            if (orderToUpdate is null)
-               throw new NotFoundException(nameof(Order), request.Id);
+
+            if (orderToUpdate is null) throw new NotFoundException(nameof(Order), request.Id);
 
             _mapper.Map(request, orderToUpdate, typeof(UpdateOrderCommand), typeof(Order.Domain.Entities.Order));
 

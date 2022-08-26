@@ -25,12 +25,37 @@ namespace Order.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //services.AddApplicationServices();
+            //services.AddInfrastructureServices(Configuration);
 
-            services.AddControllers();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Order.API", Version = "v1" });
-            });
+            //// MassTransit-RabbitMQ Configuration
+            //services.AddMassTransit(config => {
+
+            //    config.AddConsumer<BasketCheckoutConsumer>();
+
+            //    config.UsingRabbitMq((ctx, cfg) => {
+            //        cfg.Host(Configuration["EventBusSettings:HostAddress"]);
+            //        cfg.UseHealthCheck(ctx);
+
+            //        cfg.ReceiveEndpoint(EventBusConstants.BasketCheckoutQueue, c => {
+            //            c.ConfigureConsumer<BasketCheckoutConsumer>(ctx);
+            //        });
+            //    });
+            //});
+            //services.AddMassTransitHostedService();
+
+            //// General Configuration
+            //services.AddScoped<BasketCheckoutConsumer>();
+            //services.AddAutoMapper(typeof(Startup));
+
+            //services.AddControllers();
+            //services.AddSwaggerGen(c =>
+            //{
+            //    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Ordering.API", Version = "v1" });
+            //});
+
+            //services.AddHealthChecks()
+            //        .AddDbContextCheck<OrderContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

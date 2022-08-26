@@ -25,8 +25,7 @@ namespace Order.Application.Features.Orders.Commands.DeleteOrder
         public async Task<Unit> Handle(DeleteOrderCommand request, CancellationToken cancellationToken)
         {
             var orderToDelete = await _orderRepository.GetByIdAsync(request.Id).ConfigureAwait(false);
-            if (orderToDelete == null)
-                throw new NotFoundException(nameof(Order), request.Id);
+            if (orderToDelete is null) throw new NotFoundException(nameof(Order), request.Id);
 
             await _orderRepository.DeleteAsync(orderToDelete).ConfigureAwait(false);
             _logger.LogInformation($"Order {orderToDelete.Id} is successfully deleted.");
