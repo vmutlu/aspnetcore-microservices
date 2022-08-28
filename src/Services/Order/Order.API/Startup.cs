@@ -6,6 +6,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Order.Application;
+using Order.Infrastructure;
+using Order.Infrastructure.Persistence;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,8 +28,8 @@ namespace Order.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddApplicationServices();
-            //services.AddInfrastructureServices(Configuration);
+            services.AddApplicationServices();
+            services.AddInfrastructureServices(Configuration);
 
             //// MassTransit-RabbitMQ Configuration
             //services.AddMassTransit(config => {
@@ -46,16 +49,15 @@ namespace Order.API
 
             //// General Configuration
             //services.AddScoped<BasketCheckoutConsumer>();
-            //services.AddAutoMapper(typeof(Startup));
+            services.AddAutoMapper(typeof(Startup));
 
-            //services.AddControllers();
-            //services.AddSwaggerGen(c =>
-            //{
-            //    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Ordering.API", Version = "v1" });
-            //});
+            services.AddControllers();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Order.API", Version = "v1" });
+            });
 
-            //services.AddHealthChecks()
-            //        .AddDbContextCheck<OrderContext>();
+            //services.AddHealthChecks() .AddDbContextCheck<OrderContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
