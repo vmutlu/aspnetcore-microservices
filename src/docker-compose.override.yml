@@ -35,7 +35,14 @@ services:
     restart: always
     ports:
         - "1433:1433"
-      
+     
+  rabbitmq:
+    container_name: rabbitmq
+    restart: always
+    ports:
+        - "5672:5672"
+        - "15672:15672"
+
   catalog.api:
     container_name: catalog.api
     environment:
@@ -97,4 +104,15 @@ services:
       - discountdb
     ports:
       - "8003:80"
+
+  order.api:
+    container_name: order.api
+    environment:
+        - ASPNETCORE_ENVIRONMENT=Development
+        - "ConnectionStrings:OrderConnectionString=Server=orderdb;Database=OrderDb;User Id=sa;Password=admin1234"     
+    depends_on:
+        - orderdb
+    ports:
+        - "8004:80"
+      
 
