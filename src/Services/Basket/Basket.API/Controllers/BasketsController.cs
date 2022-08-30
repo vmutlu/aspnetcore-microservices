@@ -1,6 +1,9 @@
-﻿using Basket.API.Entities;
+﻿using AutoMapper;
+using Basket.API.Entities;
 using Basket.API.GrpcServices;
 using Basket.API.Repositories.Abstract;
+using Core.Messages.Events;
+using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Threading.Tasks;
@@ -13,11 +16,15 @@ namespace Basket.API.Controllers
     {
         private readonly IBasketRepository _basketRepository;
         private readonly DiscountGrpcService _discountGrpcService;
+        private readonly IPublishEndpoint _publishEndpoint;
+        private readonly IMapper _mapper;
 
-        public BasketsController(IBasketRepository basketRepository, DiscountGrpcService discountGrpcService)
+        public BasketsController(IBasketRepository basketRepository, DiscountGrpcService discountGrpcService, IPublishEndpoint publishEndpoint, IMapper mapper)
         {
             _basketRepository = basketRepository;
             _discountGrpcService = discountGrpcService;
+            _publishEndpoint = publishEndpoint;
+            _mapper = mapper;
         }
 
         [HttpGet("{userName}")]
@@ -48,6 +55,28 @@ namespace Basket.API.Controllers
             await _basketRepository.DeleteBasket(userName).ConfigureAwait(false);
                 
             return Ok();
+        }
+
+        [Route("[action]")]
+        [HttpPost]
+        [ProducesResponseType((int)HttpStatusCode.Accepted)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> Checkout([FromBody] BasketCheckout basketCheckout)
+        {
+            // get existing basket with total price
+            var basket = await _basketRepository.GetBasket(basketCheckout.UserName).ConfigureAwait(false);
+           
+            if (basket is null) return BadRequest();
+
+            // send checkout event to rabbitmq
+            var eventMessage = _mapper.Map<BasketCheckoutEvent>(basketCheckout);
+            eventMessage.TotalPrice = basket.TotalPrice;
+            await _publishEndpoint.Publish<BasketCheckoutEvent>(eventMessage).ConfigureAwait(false);
+
+            // remove the basket
+            await _basketRepository.DeleteBasket(basket.UserName).ConfigureAwait(false);
+
+            return Accepted();
         }
     }
 }
