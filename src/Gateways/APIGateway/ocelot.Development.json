@@ -10,7 +10,7 @@
           "Port": "80"
         }
       ],
-      "UpstreamPathTemplate": "/Catalog",
+      "UpstreamPathTemplate": "/Catalogs",
       "UpstreamHttpMethod": [ "GET", "POST", "PUT" ],
       "FileCacheOptions": { "TtlSeconds": 30 }
     },
@@ -23,7 +23,7 @@
           "Port": "80"
         }
       ],
-      "UpstreamPathTemplate": "/Catalog/{id}",
+      "UpstreamPathTemplate": "/Catalogs/{id}",
       "UpstreamHttpMethod": [ "GET", "DELETE" ]
     },
     {
@@ -35,7 +35,7 @@
           "Port": "80"
         }
       ],
-      "UpstreamPathTemplate": "/Catalog/GetProductByCategory/{category}",
+      "UpstreamPathTemplate": "/Catalogs/GetProductByCategory/{category}",
       "UpstreamHttpMethod": [ "GET" ]
     },
     //Basket API
@@ -48,7 +48,7 @@
           "Port": "80"
         }
       ],
-      "UpstreamPathTemplate": "/Basket/{userName}",
+      "UpstreamPathTemplate": "/Baskets/{userName}",
       "UpstreamHttpMethod": [ "GET", "DELETE" ]
     },
     {
@@ -60,7 +60,7 @@
           "Port": "80"
         }
       ],
-      "UpstreamPathTemplate": "/Basket",
+      "UpstreamPathTemplate": "/Baskets",
       "UpstreamHttpMethod": [ "POST" ]
     },
     {
@@ -72,7 +72,7 @@
           "Port": "80"
         }
       ],
-      "UpstreamPathTemplate": "/Basket/Checkout",
+      "UpstreamPathTemplate": "/Baskets/Checkout",
       "UpstreamHttpMethod": [ "POST" ],
       "RateLimitOptions": {
         "ClientWhitelist": [],
@@ -92,7 +92,7 @@
           "Port": "80"
         }
       ],
-      "UpstreamPathTemplate": "/Discount/{productName}",
+      "UpstreamPathTemplate": "/Discounts/{productName}",
       "UpstreamHttpMethod": [ "GET", "DELETE" ]
     },
     {
@@ -104,7 +104,7 @@
           "Port": "80"
         }
       ],
-      "UpstreamPathTemplate": "/Discount",
+      "UpstreamPathTemplate": "/Discounts",
       "UpstreamHttpMethod": [ "PUT", "POST" ]
     },
     //Order API
@@ -117,7 +117,7 @@
           "Port": "80"
         }
       ],
-      "UpstreamPathTemplate": "/Order/{userName}",
+      "UpstreamPathTemplate": "/Orders/{userName}",
       "UpstreamHttpMethod": [ "GET" ]
     }
   ],

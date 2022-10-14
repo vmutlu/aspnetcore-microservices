@@ -1,9 +1,9 @@
-﻿using Shopping.Aggregator.Models;
+﻿using Shopping.Aggregator.Extensions;
+using Shopping.Aggregator.Models;
 using Shopping.Aggregator.Services.Abstract;
+using System;
 using System.Net.Http;
 using System.Threading.Tasks;
-using System;
-using Shopping.Aggregator.Extensions;
 
 namespace Shopping.Aggregator.Services.Concrete
 {
