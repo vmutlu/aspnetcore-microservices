@@ -1,4 +1,4 @@
-﻿@model Product
+﻿@model CatalogModel
 
 <div class="card">
     <a asp-page="ProductDetail" asp-route-productId="@Model.Id"><img asp-append-version="true" class="card-img-top" src="~/images/product/@Model.ImageFile" alt=""></a>
@@ -7,7 +7,7 @@
         <p class="card-text">@Model.Summary</p>
         <div class="row">
             <div class="col">
-                <p class="btn btn-danger btn-block">@Model.Price $</p>
+                <p class="btn btn-danger btn-block">@Model.Price ₺</p>
             </div>
             <div class="col">
 
