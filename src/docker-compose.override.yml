@@ -137,11 +137,24 @@ services:
         - ASPNETCORE_ENVIRONMENT=Development
         - "ApiSettings:CatalogUrl=http://catalog.api"
         - "ApiSettings:BasketUrl=http://basket.api"
-        - "ApiSettings:OrderingUrl=http://ordering.api"
-        - "ElasticConfiguration:Uri=http://elasticsearch:9200"
+        - "ApiSettings:OrderUrl=http://order.api"
     depends_on:
         - catalog.api
         - basket.api
-        - ordering.api
+        - order.api
     ports:
         - "8005:80"
+
+  aspnetrunbasics:
+    container_name: aspnetrunbasics
+    environment:
+        - ASPNETCORE_ENVIRONMENT=Development
+        - "ApiSettings:GatewayAddress=http://ocelotapigw"
+    depends_on:
+        - ocelotapigw
+        - catalog.api
+        - basket.api
+        - discount.api
+        - order.api
+    ports:
+        - "8006:80"
